@@ -1,11 +1,18 @@
 <template lang='pug'>
-	.toolbar-item(:title="name")
+	.toolbar-item(:title="name", v-on:click="changeTool")
 		i.fa(:class="icon")
 </template>
 
 <script>
+import { EventBus } from '@/eventbus.js'
+
 export default {
-	props: ['name', 'icon', 'color'],
+	props: ['name', 'id', 'icon', 'color'],
+	methods: {
+		changeTool() {
+			EventBus.$emit('changeTool', this.id)
+		}
+	},
 	data() {
 		return {}
 	}
