@@ -32,7 +32,7 @@ export default {
 				// handle click and edit of an element
 			}
 
-			if(['planet', 'station'].includes(tool)) {
+			if(['planet', 'station', 'jump', 'field', 'star', 'custom'].includes(tool)) {
 				EventBus.$emit('createSolar', tool, x, y)
 			}
 		}

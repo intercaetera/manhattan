@@ -15,6 +15,7 @@ import Edit from './Menu/Edit.vue'
 import ElementList from './Menu/ElementList.vue'
 
 import { EventBus } from '@/eventbus.js'
+import * as classes from '@/classes.js'
 
 import shortid from 'shortid'
 
@@ -41,8 +42,12 @@ let store = {
 		this.state.selectedItem = solar
 	},
 	updateSolar(id, solar) {
-		const i = this.state.solars.find(el => el.id === id)
+		const i = this.state.solars.findIndex(el => el.id === id)
 		this.state.solars[i] = solar
+	},
+	selectSolar(id) {
+		const i = this.state.solars.findIndex(el => el.id === id)
+		this.selectedItem = this.state.solars[i]
 	},
 	deleteSolar(id) {
 		const i = this.state.solars.find(el => el.id === id)
@@ -57,19 +62,65 @@ EventBus.$on('changeTool', (tool) => {
 })
 
 EventBus.$on('createSolar', (type, x, y) => {
+	let created
 
-	let solar = {
+	let entity = {
 		id: shortid.generate(),
-		name: "New " + type,
-		type: type,
-		position: {
-			x, y
-		},
-		infocard: ""
+		type,
+		notes: ""
 	}
 
-	store.addSolar(solar)
+	if(['planet', 'field', 'station', 'jump', 'star', 'custom'].includes(type)) {
+		entity.position = { x, y }
+		entity.infocard = ""
 
+		if(type === 'planet') {
+			entity.name = "Unknown Planet"
+			entity.owner = ""
+			entity.radius = 0
+			entity.dockable = false
+			created = new classes.Planet(entity)
+		}
+
+		if(type === 'station') {
+			entity.name = "Unknown Station"
+			entity.owner = ""
+			entity.dockable = false
+			created = new classes.Station(entity)
+		}
+
+		if(type === 'jump') {
+			entity.name = "Unknown Jump Hole"
+			entity.target = null
+			entity.gate = false
+			created = new classes.Jump(entity)
+		}
+
+		if(type === 'star') {
+			entity.name = "Medium White"
+			entity.radius = 0
+			entity.corona = 0
+			created = new classes.Star(entity)
+		}
+
+		if(type === 'field') {
+			entity.name = "Unknown Nebula"
+			entity.verticalRadius = 0
+			entity.horizontalRadius = 0
+			entity.tilt = 0
+			created = new classes.Field(entity)
+		}
+
+		if(type === 'custom') {
+			entity.name = "Object Unknown"
+			entity.owner = ""
+			entity.dockable = false
+			entity.custom = ""
+			created = new classes.CustomSolar(entity)
+		}
+	}
+
+	store.addSolar(created)
 })
 
 export default {
