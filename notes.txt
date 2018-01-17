@@ -1,0 +1,70 @@
+SOLAR OBJECT DATA:
+
+Planet:
+{
+	id: Shortid,
+	name: String,
+	type: String,
+	position: {
+		x: Number,
+		y: Number,
+	},
+	infocard: String,
+	radius: Number,
+	dockable: Boolean
+}
+
+Station:
+{
+	id: Shortid,
+	name: String,
+	type: String,
+	position: {
+		x: Number,
+		y: Number
+	},
+	infocard: String,
+	dockable: Boolean
+}
+
+Jump:
+{
+	id: Shortid,
+	name: String,
+	type: String,
+	position: {
+		x: Number,
+		y: Number
+	},
+	target: Shortid,
+	infocard: String,
+	gate: Boolean
+}
+
+Trade Lane:
+{
+	id: Shortid,
+	type: String,
+	start: {
+		x: Number,
+		y: Number
+	},
+	end: {
+		x: Number,
+		y: Number
+	}	
+}
+
+Star:
+{
+	id: Shortid,
+	name: String,
+	type: String,
+	position: {
+		x: Number,
+		y: Number
+	},
+	infocard: String,
+	radius: Number,
+	corona: Number
+}
