@@ -1,7 +1,7 @@
 <template lang="pug">
 .map(v-on:changeTool="changeTool")
 	toolbar(:selectedTool="state.selectedTool")
-	viewport(:selectedTool="state.selectedTool")
+	viewport(:selectedTool="state.selectedTool", :list="state.solars")
 	.menu
 		edit(:item="state.selectedItem")
 		element-list(:list="state.solars", :item="state.selectedItem")
@@ -49,9 +49,10 @@ let store = {
 		this.state.selectedItem = this.state.solars[i]
 	},
 	deleteSolar(id) {
-		const i = this.state.solars.find(el => el.id === id)
-		if(i) {
-			this.state.solars.splice(i, 1)
+		const i = this.state.solars.findIndex(el => el.id === id)
+		console.log(id, i)
+		if(i >= 0) {
+			console.log(this.state.solars.splice(i, 1))
 			this.state.selectedItem = null
 		}
 
@@ -130,6 +131,19 @@ EventBus.$on('createSolar', (type, x, y) => {
 	}
 
 	store.addSolar(created)
+})
+
+EventBus.$on('createLane', (start, end) => {
+	let entity = {
+		id: shortid.generate(),
+		name: "Unknown Trade Lane",
+		type: 'lane',
+		notes: '',
+		start,
+		end
+	}
+
+	store.addSolar(entity)
 })
 
 export default {

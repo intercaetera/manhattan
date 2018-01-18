@@ -2,7 +2,7 @@
 .element-list
 	ul
 		li(v-for="each in list")
-			span(:class="{ active: each.id === item.id }", v-on:click="select(each.id)") {{ each.name }}
+			span(:class="", v-on:click="select(each.id)") {{ each.name }}
 			i.fa.fa-trash(v-on:click="remove(each.id, each.name)")
 </template>
 
