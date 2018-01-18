@@ -4,7 +4,7 @@
 	viewport(:selectedTool="state.selectedTool")
 	.menu
 		edit(:item="state.selectedItem")
-		element-list(:list="state.solars")
+		element-list(:list="state.solars", :item="state.selectedItem")
 </template>
 
 <script>
@@ -36,10 +36,9 @@ let store = {
 			if(this.debug) console.log('Can\'t change to undefined')
 		}
 	},
-
 	addSolar(solar) {
-		this.state.solars.push(solar)
 		this.state.selectedItem = solar
+		this.state.solars.push(solar)
 	},
 	updateSolar(id, solar) {
 		const i = this.state.solars.findIndex(el => el.id === id)
@@ -47,18 +46,28 @@ let store = {
 	},
 	selectSolar(id) {
 		const i = this.state.solars.findIndex(el => el.id === id)
-		this.selectedItem = this.state.solars[i]
+		this.state.selectedItem = this.state.solars[i]
 	},
 	deleteSolar(id) {
 		const i = this.state.solars.find(el => el.id === id)
 		if(i) {
 			this.state.solars.splice(i, 1)
+			this.state.selectedItem = null
 		}
+
 	}
 }
 
 EventBus.$on('changeTool', (tool) => {
 	store.changeTool(tool)
+})
+
+EventBus.$on('selectSolar', (id) => {
+	store.selectSolar(id)
+})
+
+EventBus.$on('deleteSolar', (id) => {
+	store.deleteSolar(id)
 })
 
 EventBus.$on('createSolar', (type, x, y) => {
@@ -77,7 +86,7 @@ EventBus.$on('createSolar', (type, x, y) => {
 		if(type === 'planet') {
 			entity.name = "Unknown Planet"
 			entity.owner = ""
-			entity.radius = 0
+			entity.radius = 1
 			entity.dockable = false
 			created = new classes.Planet(entity)
 		}
@@ -91,7 +100,7 @@ EventBus.$on('createSolar', (type, x, y) => {
 
 		if(type === 'jump') {
 			entity.name = "Unknown Jump Hole"
-			entity.target = null
+			entity.target = ""
 			entity.gate = false
 			created = new classes.Jump(entity)
 		}

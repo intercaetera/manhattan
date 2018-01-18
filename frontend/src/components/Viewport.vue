@@ -17,14 +17,14 @@ export default {
 		tradelane(e) {
 			if(this.selectedTool !== 'lane') return
 
-			const x = (e.clientX - e.target.offsetLeft) / e.target.offsetWidth
-			const y = (e.clientY - e.target.offsetTop) / e.target.offsetHeight
+			const x = round((e.clientX - e.target.offsetLeft) / e.target.offsetWidth)
+			const y = round((e.clientY - e.target.offsetTop) / e.target.offsetHeight)
 
 			console.log(x, y)
 		},
 		click(e) {
-			const x = (e.clientX - e.target.offsetLeft) / e.target.offsetWidth
-			const y = (e.clientY - e.target.offsetTop) / e.target.offsetHeight
+			const x = round((e.clientX - e.target.offsetLeft) / e.target.offsetWidth)
+			const y = round((e.clientY - e.target.offsetTop) / e.target.offsetHeight)
 
 			const tool = this.selectedTool
 
@@ -37,6 +37,10 @@ export default {
 			}
 		}
 	}
+}
+
+function round(n) {
+	return Math.round((n + 0.00001) * 10000) / 10000
 }
 </script>
 
