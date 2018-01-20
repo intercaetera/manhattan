@@ -13,9 +13,6 @@
 <script>
 import ToolbarItem from './Toolbar/ToolbarItem.vue'
 
-
-console.log(Map)
-
 export default {
 	props: ['selectedTool'],
 	computed: {
@@ -24,11 +21,6 @@ export default {
 			selected[this.selectedTool] = true
 			return selected
 		}	
-	},
-	methods: {
-		test() {
-			console.log("caught")
-		}
 	},
 	components: {
 		ToolbarItem

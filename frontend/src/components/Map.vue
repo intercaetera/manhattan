@@ -1,7 +1,7 @@
 <template lang="pug">
 .map(v-on:changeTool="changeTool")
 	toolbar(:selectedTool="state.selectedTool")
-	viewport(:selectedTool="state.selectedTool", :list="state.solars")
+	viewport(:selectedTool="state.selectedTool", :list="state.solars", :selectedItem="state.selectedItem")
 	.menu
 		edit(:item="state.selectedItem")
 		element-list(:list="state.solars", :item="state.selectedItem")
@@ -20,20 +20,16 @@ import * as classes from '@/classes.js'
 import shortid from 'shortid'
 
 let store = {
-	debug: true,
 	state: {
 		selectedTool: "cursor",
 		selectedItem: null,
-		solars: []
+		solars: [],
+		lanes: []
 	},
 
 	changeTool(tool) {
-		if(this.debug) console.log('Tool changed to: ' + tool)
 		if(tool) {
 			this.state.selectedTool = tool
-		}
-		else {
-			if(this.debug) console.log('Can\'t change to undefined')
 		}
 	},
 	addSolar(solar) {
@@ -50,10 +46,11 @@ let store = {
 	},
 	deleteSolar(id) {
 		const i = this.state.solars.findIndex(el => el.id === id)
-		console.log(id, i)
 		if(i >= 0) {
-			console.log(this.state.solars.splice(i, 1))
-			this.state.selectedItem = null
+			if(this.state.solars[i] === this.state.selectedItem) {
+				this.state.selectedItem = null
+			}
+			this.state.solars.splice(i, 1)
 		}
 
 	}
@@ -87,7 +84,7 @@ EventBus.$on('createSolar', (type, x, y) => {
 		if(type === 'planet') {
 			entity.name = "Unknown Planet"
 			entity.owner = ""
-			entity.radius = 1
+			entity.radius = 20
 			entity.dockable = false
 			created = new classes.Planet(entity)
 		}
@@ -95,7 +92,7 @@ EventBus.$on('createSolar', (type, x, y) => {
 		if(type === 'station') {
 			entity.name = "Unknown Station"
 			entity.owner = ""
-			entity.dockable = false
+			entity.dockable = true
 			created = new classes.Station(entity)
 		}
 
@@ -108,15 +105,15 @@ EventBus.$on('createSolar', (type, x, y) => {
 
 		if(type === 'star') {
 			entity.name = "Medium White"
-			entity.radius = 0
-			entity.corona = 0
+			entity.radius = 20
+			entity.corona = 40
 			created = new classes.Star(entity)
 		}
 
 		if(type === 'field') {
 			entity.name = "Unknown Nebula"
-			entity.verticalRadius = 0
-			entity.horizontalRadius = 0
+			entity.verticalRadius = 5
+			entity.horizontalRadius = 5
 			entity.tilt = 0
 			created = new classes.Field(entity)
 		}
@@ -154,7 +151,6 @@ export default {
 	},
 	methods: {
 		changeTool(tool) {
-			console.log("caught")
 			store.changeTool(tool)
 		}
 	},

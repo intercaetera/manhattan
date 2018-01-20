@@ -2,7 +2,7 @@
 .viewport(v-on:mouseup='click', v-on:mousedown='tradelane')
 	grid
 	.entities
-		entity(v-for="each in list", :entity="each")
+		entity(v-for="each in list", :key="each.id", :entity="each", :selected="selectedItem")
 </template>
 
 <script>
@@ -14,7 +14,7 @@ import { EventBus } from '@/eventbus'
 let laneStart = {}
 
 export default {
-	props: ['selectedTool', 'list'],
+	props: ['selectedTool','selectedItem', 'list'],
 	components: {
 		Grid, Entity
 	},
@@ -65,6 +65,7 @@ export default {
 	box-shadow inset 0 0 10px #002255
 
 	position relative
+	overflow hidden
 
 .entities
 	position absolute

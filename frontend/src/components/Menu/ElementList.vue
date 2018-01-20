@@ -2,7 +2,7 @@
 .element-list
 	ul
 		li(v-for="each in list")
-			span(:class="", v-on:click="select(each.id)") {{ each.name }}
+			span(:class="active(each.id)", v-on:click="select(each.id)") {{ each.name }}
 			i.fa.fa-trash(v-on:click="remove(each.id, each.name)")
 </template>
 
@@ -11,6 +11,8 @@ import { EventBus } from '@/eventbus'
 
 export default {
 	props: ['list', 'item'],
+	computed: {
+	},
 	methods: {
 		select(id) {
 			EventBus.$emit('selectSolar', id)
@@ -19,6 +21,12 @@ export default {
 			if(confirm(`Are you sure you want to delete ${name}?`)) {
 				EventBus.$emit('deleteSolar', id)
 			}
+		},
+		active(id) {
+			if(this.item && id === this.item.id)
+				return { active: true }
+			else
+				return { active: false }
 		}
 	},
 	data() {
