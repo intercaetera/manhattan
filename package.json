@@ -1,0 +1,22 @@
+{
+  "name": "manhattan",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/mrhuds0n/manhattan",
+  "author": "<protegegod@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "mongoose": "^5.0.1",
+    "morgan": "^1.9.0"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.12"
+  }
+}

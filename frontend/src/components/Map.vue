@@ -5,6 +5,7 @@
 	.menu
 		edit(:item="state.selectedItem")
 		element-list(:list="state.solars", :item="state.selectedItem")
+		save
 </template>
 
 <script>
@@ -13,6 +14,7 @@ import Viewport from './Viewport.vue'
 
 import Edit from './Menu/Edit.vue'
 import ElementList from './Menu/ElementList.vue'
+import Save from './Menu/Save.vue'
 
 import { EventBus } from '@/eventbus.js'
 import * as classes from '@/classes.js'
@@ -21,6 +23,7 @@ import shortid from 'shortid'
 
 let store = {
 	state: {
+		id: shortid.generate(),
 		selectedTool: "cursor",
 		selectedItem: null,
 		solars: [],
@@ -143,6 +146,16 @@ EventBus.$on('createLane', (start, end) => {
 	store.addSolar(entity)
 })
 
+EventBus.$on('save', () => {
+	fetch('/api/create', {
+		body: JSON.stringify(store.state),
+		method: 'POST',
+		headers: {
+			'content-type': 'application/json'
+		}
+	}).then(console.log)
+})
+
 export default {
 	data: function() {
 		return {
@@ -155,7 +168,7 @@ export default {
 		}
 	},
 	components: {
-		Toolbar, Viewport, ElementList, Edit
+		Toolbar, Viewport, ElementList, Edit, Save
 	}
 }
 </script>

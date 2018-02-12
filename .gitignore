@@ -2,3 +2,4 @@
 yarn.lock
 *build
 *.swp
+config.js
