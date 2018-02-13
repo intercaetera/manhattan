@@ -6,9 +6,11 @@ button(@click='save') Save
 import { EventBus } from '@/eventbus'
 
 export default {
+	props: ['id'],
 	methods: {
 		save(e) {
 			EventBus.$emit('save')
+			console.log(this.$router.push(this.id))
 		}
 	}
 }

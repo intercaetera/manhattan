@@ -28,13 +28,61 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api', (req, res) => {
-	res.send("Łabądź.")
+	res.send('Łabądź.')
+})
+
+app.get('/api/:id', (req, res) => {
+	let { id } = req.params
+
+	Project.findOne({id: id}, (error, project) => {
+		if(error) {
+			console.log(error)
+			res.sendStatus(404)
+			return
+		}
+
+		if(!project) {
+			console.log(error)
+			res.sendStatus(404)
+			return
+		}
+
+		res.send(project)
+	})
 })
 
 app.post('/api/create', (req, res) => {
-	const { body } = req
-	console.log(body)
-	res.send(body)
+	try {
+		let { body } = req
+
+		Project.findOneAndUpdate({id: body.id}, body, {upsert: true}, (error, result) => {
+			if(error) {
+				console.log(error)
+				return
+			}
+
+			if(!result) {
+				result = new Project(body)
+				console.log('created')
+			}
+
+			result.save((error, project) => {
+				if(error) {
+					res.sendStatus(500)
+					console.log('error', error)
+				}
+				else {
+					res.send(project)
+					console.log(project)
+					console.log('updated')
+				}
+			})
+		})
+	}			
+	catch(error) {
+		console.log(error)
+		res.sendStatus(400)
+	}
 })
 
 app.listen(PORT)

@@ -1,15 +1,10 @@
 <template lang="pug">
 .wrapper
-	vmap
+	router-view
 </template>
 
 <script>
-import vmap from './components/Map.vue'
-
 export default {
-	components: {
-		vmap
-	}
 }
 </script>
 

@@ -5,7 +5,7 @@
 	.menu
 		edit(:item="state.selectedItem")
 		element-list(:list="state.solars", :item="state.selectedItem")
-		save
+		save(:id="state.id")
 </template>
 
 <script>
@@ -56,6 +56,9 @@ let store = {
 			this.state.solars.splice(i, 1)
 		}
 
+	},
+	updateState(state) {
+		this.state = state
 	}
 }
 
@@ -146,14 +149,22 @@ EventBus.$on('createLane', (start, end) => {
 	store.addSolar(entity)
 })
 
-EventBus.$on('save', () => {
+EventBus.$on('save', function() {
 	fetch('/api/create', {
 		body: JSON.stringify(store.state),
 		method: 'POST',
 		headers: {
 			'content-type': 'application/json'
 		}
-	}).then(console.log)
+	})
+		.then(res => {
+			if(res.status === 200) {
+				return res.json()
+			}
+		})
+		.then(json => {
+			console.log(json)
+		})
 })
 
 export default {
@@ -165,6 +176,22 @@ export default {
 	methods: {
 		changeTool(tool) {
 			store.changeTool(tool)
+		}
+	},
+	mounted: function() {
+		if(this.$route.params.id) {
+			fetch(`/api/${this.$route.params.id}`)
+				.then(res => {
+					console.log(res)
+					if(res.status === 200) {
+						return res.json()
+					}
+				})
+				.then(json => {
+					Object.assign(store.state, json)
+					console.log(store.state)
+				})
+				.catch(console.log)
 		}
 	},
 	components: {
