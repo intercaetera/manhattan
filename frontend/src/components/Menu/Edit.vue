@@ -40,7 +40,9 @@
 	// Jump
 	.form-control(v-if="item.target != undefined")
 		label Target
-		input(type='text', v-model="item.target")
+		.row-fill
+			input(type='text', v-model="item.target", placeholder="System ID", @keyup='nameFetch')
+			i.fa.fa-arrow-circle-right(title="Go to", @click='goto')
 	.form-control(v-if="item.gate != undefined")
 		.row
 			input(type='radio', id='false', value='false', v-model='item.gate')
@@ -80,8 +82,39 @@
 </template>
 
 <script>
+import debounce from 'debounce'
+
 export default {
 	props: ['item'],
+	methods: {
+		goto() {
+			if(this.item.target) {
+				this.$router.push(this.item.target)
+				location.reload()
+			}
+		},
+		nameFetch() {
+			const run = debounce(function() {
+				console.log('boundec')
+				if(this.item.target) {
+					console.log('mlem')
+					fetch(`/api/${this.item.target}`)
+						.then(res => res.json())
+						.then(json => {
+							if(this.item.gate) {
+								this.item.name = `${json.systemName} Jump Gate`
+							}
+							else {
+								this.item.name = `${json.systemName} Jump Hole`
+							}
+						})
+						.catch(e => console.log)
+				}
+			}, 500).bind(this)
+
+			run()
+		}
+	},
 	data() {
 		return {
 		}
@@ -113,6 +146,15 @@ export default {
 .row
 	width 50%
 	display flex
+	align-items center
+
+.row-fill
+	width 100%
+	display flex
+	align-items center
+	
+i.fa.fa-arrow-circle-right
+	margin-left 1em
 
 input[type='text'], textarea
 	width 100%
@@ -128,4 +170,8 @@ input[type='text'], textarea
 
 	&.large
 		font-size 1.5em
+
+	&::placeholder
+		color #FFF
+		opacity .3
 </style>

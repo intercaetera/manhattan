@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const projectSchema = new mongoose.Schema({
 	id: String,
+	systemName: String,
 	selectedTool: String,
 	selectedItem: mongoose.Schema.Types.Mixed,
 	solars: [mongoose.Schema.Types.Mixed],

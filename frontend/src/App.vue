@@ -1,6 +1,5 @@
 <template lang="pug">
-.wrapper
-	router-view
+router-view
 </template>
 
 <script>
@@ -14,14 +13,4 @@ export default {
 	padding 0
 	box-sizing border-box
 
-.wrapper
-	background black
-	width 100vw
-	height 100vh
-
-	display flex
-	align-items center
-	justify-content center
-
-	font-family "Helvetica", "Roboto", "Arial", sans-serif
 </style>

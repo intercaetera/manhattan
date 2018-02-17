@@ -1,11 +1,15 @@
 <template lang="pug">
-.map(v-on:changeTool="changeTool")
-	toolbar(:selectedTool="state.selectedTool")
-	viewport(:selectedTool="state.selectedTool", :list="state.solars", :selectedItem="state.selectedItem")
-	.menu
-		edit(:item="state.selectedItem")
-		element-list(:list="state.solars", :item="state.selectedItem")
-		save(:id="state.id")
+.wrapper
+	.header
+		input(type='text', v-model="state.systemName").title
+		h6 ( {{ state.id }} )
+	.map(v-on:changeTool="changeTool")
+		toolbar(:selectedTool="state.selectedTool")
+		viewport(:selectedTool="state.selectedTool", :list="state.solars", :selectedItem="state.selectedItem")
+		.menu
+			edit(:item="state.selectedItem")
+			element-list(:list="state.solars", :item="state.selectedItem")
+			save(:id="state.id")
 </template>
 
 <script>
@@ -24,7 +28,9 @@ import shortid from 'shortid'
 let store = {
 	state: {
 		id: "",
+		systemName: "New System",
 		selectedTool: "cursor",
+		unsavedChanges: false,
 		selectedItem: null,
 		solars: [],
 		lanes: []
@@ -38,10 +44,12 @@ let store = {
 	addSolar(solar) {
 		this.state.selectedItem = solar
 		this.state.solars.push(solar)
+		this.state.unsavedChanges = true
 	},
 	updateSolar(id, solar) {
 		const i = this.state.solars.findIndex(el => el.id === id)
 		this.state.solars[i] = solar
+		this.state.unsavedChanges = true
 	},
 	selectSolar(id) {
 		const i = this.state.solars.findIndex(el => el.id === id)
@@ -55,6 +63,7 @@ let store = {
 			}
 			this.state.solars.splice(i, 1)
 		}
+		this.state.unsavedChanges = true
 
 	},
 	updateState(state) {
@@ -167,8 +176,15 @@ EventBus.$on('save', function() {
 		.then(json => {
 			this.$router.push(store.state.id)
 			console.log(json)
+			store.state.unsavedChanges = false
 		})
 })
+
+window.onbeforeunload = function() {
+	if(store.state.unsavedChanges) {
+		return "You have unsaved changes, are you sure you want to navigate away?"
+	}
+}
 
 export default {
 	data: function() {
@@ -192,7 +208,7 @@ export default {
 				})
 				.then(json => {
 					Object.assign(store.state, json)
-					console.log(store.state)
+					store.state.unsavedChanges = false
 				})
 				.catch(console.log)
 		}
@@ -218,4 +234,36 @@ export default {
 
 	display flex
 	flex-direction column
+
+.wrapper
+	background black
+	width 100vw
+	height 100vh
+
+	display flex
+	flex-direction column
+	align-items center
+	justify-content center
+
+	font-family "Helvetica", "Roboto", "Arial", sans-serif
+
+
+.header
+	display flex
+	align-items center
+
+	h6
+		color white
+		opacity .5
+
+	.title
+		background none
+		--webkit-appearance none
+		outline none
+		border none
+
+		font-size 2em
+		margin-bottom .5em
+		font-family "Montserrat", "Roboto", sans-serif
+		text-align center
 </style>
