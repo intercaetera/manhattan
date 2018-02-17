@@ -23,7 +23,7 @@ import shortid from 'shortid'
 
 let store = {
 	state: {
-		id: shortid.generate(),
+		id: "",
 		selectedTool: "cursor",
 		selectedItem: null,
 		solars: [],
@@ -150,6 +150,8 @@ EventBus.$on('createLane', (start, end) => {
 })
 
 EventBus.$on('save', function() {
+	store.state.id = shortid.generate()
+
 	fetch('/api/create', {
 		body: JSON.stringify(store.state),
 		method: 'POST',
@@ -163,6 +165,7 @@ EventBus.$on('save', function() {
 			}
 		})
 		.then(json => {
+			this.$router.push(store.state.id)
 			console.log(json)
 		})
 })

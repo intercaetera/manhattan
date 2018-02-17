@@ -54,29 +54,23 @@ app.get('/api/:id', (req, res) => {
 app.post('/api/create', (req, res) => {
 	try {
 		let { body } = req
+		if(body._id) {
+			delete body._id
+		}
 
-		Project.findOneAndUpdate({id: body.id}, body, {upsert: true}, (error, result) => {
+		const project = new Project(body)
+		console.log('created')
+
+		project.save((error, result) => {
 			if(error) {
-				console.log(error)
-				return
+				res.sendStatus(500)
+				console.log('error', error)
 			}
-
-			if(!result) {
-				result = new Project(body)
-				console.log('created')
+			else {
+				res.send(result)
+				console.log(result)
+				console.log('updated')
 			}
-
-			result.save((error, project) => {
-				if(error) {
-					res.sendStatus(500)
-					console.log('error', error)
-				}
-				else {
-					res.send(project)
-					console.log(project)
-					console.log('updated')
-				}
-			})
 		})
 	}			
 	catch(error) {

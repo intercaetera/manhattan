@@ -10,7 +10,6 @@ export default {
 	methods: {
 		save(e) {
 			EventBus.$emit('save')
-			console.log(this.$router.push(this.id))
 		}
 	}
 }

@@ -1,2 +1,8 @@
 import Vue from 'vue'
-export const EventBus = new Vue()
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
+
+const router = new VueRouter()
+
+export const EventBus = new Vue({ router })
