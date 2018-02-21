@@ -25,7 +25,6 @@ export default {
 	align-items center
 	justify-content space-between
 	transform translateX(-50%)
-	position relative
 
 	i.fa-superpowers
 		text-align center

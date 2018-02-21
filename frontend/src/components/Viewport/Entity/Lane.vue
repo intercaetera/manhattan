@@ -24,6 +24,5 @@ export default {
 
 <style scoped lang='stylus'>
 .lane
-	position absolute
 	display block
 </style>

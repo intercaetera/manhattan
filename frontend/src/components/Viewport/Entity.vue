@@ -1,12 +1,11 @@
 <template lang='pug' v-if="entity.type != 'lane'">
-	.entity(:style="styleObject", :class="ifSelected")
-		planet(v-if="entity.type === 'planet'", :entity="entity")
-		station(v-if="entity.type === 'station'", :entity="entity")
-		jump(v-if="entity.type === 'jump'", :entity="entity")
-		star(v-if="entity.type === 'star'", :entity="entity")
-		field(v-if="entity.type === 'field'", :entity="entity")
-		custom(v-if="entity.type === 'custom'", :entity="entity")
-		lane(v-if="entity.type === 'lane'", :entity="entity")
+	planet(v-if="entity.type === 'planet'", :entity="entity", :style="styleObject", :class="ifSelected")
+	station(v-else-if="entity.type === 'station'", :entity="entity", :style="styleObject", :class="ifSelected")
+	jump(v-else-if="entity.type === 'jump'", :entity="entity", :style="styleObject", :class="ifSelected")
+	star(v-else-if="entity.type === 'star'", :entity="entity", :style="styleObject", :class="ifSelected")
+	field(v-else-if="entity.type === 'field'", :entity="entity", :style="styleObject", :class="ifSelected")
+	custom(v-else-if="entity.type === 'custom'", :entity="entity", :style="styleObject", :class="ifSelected")
+	lane(v-else-if="entity.type === 'lane'", :entity="entity", :style="styleObject", :class="ifSelected")
 	
 </template>
 
@@ -45,8 +44,8 @@ export default {
 		},
 		ifSelected() {
 			if(this.selected && this.selected.id === this.entity.id)
-				return { active: true }
-			else return { active: false }
+				return { active: true, entity: true }
+			else return { active: false, entity: true }
 		}
 	},
 	data() {

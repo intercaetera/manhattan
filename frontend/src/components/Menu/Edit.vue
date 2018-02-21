@@ -60,12 +60,12 @@
 	// Field
 	.form-control(v-if="item.verticalRadius != undefined")
 		label Vertical radius
-		input(type='range', min='1', max='100', v-model='item.verticalRadius')
-		span {{ item.verticalRadius }}
+		input(type='range', min='1', max='200', v-model='item.verticalRadius')
+		span {{ item.verticalRadius }}%
 	.form-control(v-if="item.horizontalRadius != undefined")
 		label Horizontal radius
-		input(type='range', min='1', max='100', v-model='item.horizontalRadius')
-		span {{ item.horizontalRadius }}
+		input(type='range', min='1', max='200', v-model='item.horizontalRadius')
+		span {{ item.horizontalRadius }}%
 	.form-control(v-if="item.tilt != undefined")
 		label Tilt
 		input(type='range', min='0', max='360', v-model='item.tilt')

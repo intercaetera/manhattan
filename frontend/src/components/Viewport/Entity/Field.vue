@@ -10,8 +10,8 @@ export default {
 	computed: {
 		fieldStyle() {
 			return {
-				height: `${this.entity.verticalRadius}em`,
-				width: `${this.entity.horizontalRadius}em`,
+				height: `${this.entity.verticalRadius}%`,
+				width: `${this.entity.horizontalRadius}%`,
 				transform: `translateX(-50%) translateY(-50%) rotate(${this.entity.tilt}deg)`
 			}
 		}
@@ -27,7 +27,6 @@ export default {
 .field
 	color white
 	border-radius 100%
-	position relative
 	pointer-events none
 
 	display flex

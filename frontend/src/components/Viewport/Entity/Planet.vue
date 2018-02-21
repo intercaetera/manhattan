@@ -24,7 +24,6 @@ export default {
 	flex-direction column
 	align-items center
 	transform translateX(-50%)
-	position relative
 
 	i.fa-globe
 		text-align center

@@ -1,6 +1,5 @@
 <template lang="pug">
-.star
-	.corona(:style="{ height: `${entity.corona / 10}em`, width: `${entity.corona / 10}em` }")
+.star(:style="{ height: `${entity.corona}%`, width: `${entity.corona}%` }")
 	i.fa.fa-star(:style="{ fontSize: `${entity.radius / 10}em` }")
 	p 
 		| {{ entity.name }}
@@ -23,18 +22,12 @@ export default {
 	display flex
 	flex-direction column
 	align-items center
-	transform translateX(-50%)
-	position relative
+	justify-content center
+	transform translateX(-50%) translateY(-50%)
+	border 1px solid rgba(red, .3)
 
 	i.fa-star
 		text-align center
-		transform translateY(-50%)
-
-	.corona
-		position absolute
-		border-radius 100%
-		border 1px solid rgba(red, .3)
-		transform translateY(-50%)
 
 	p
 		min-width 80px

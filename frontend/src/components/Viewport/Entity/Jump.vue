@@ -24,7 +24,6 @@ export default {
 	align-items center
 	justify-content space-between
 	transform translateX(-50%)
-	position relative
 
 	i.fa-street-view
 		text-align center

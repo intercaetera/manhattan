@@ -26,7 +26,7 @@ export default {
 	background black
 	color gray
 
-	font-size 2em
+	font-size 3vh
 	display flex
 	align-items center
 	justify-content center
