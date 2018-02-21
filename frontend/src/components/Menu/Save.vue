@@ -16,5 +16,6 @@ export default {
 </script>
 
 <style lang='stylus' scoped>
-
+button
+	min-height 2em
 </style>

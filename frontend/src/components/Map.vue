@@ -261,6 +261,7 @@ export default {
 		--webkit-appearance none
 		outline none
 		border none
+		color white
 
 		font-size 2em
 		margin-bottom .5em
