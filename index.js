@@ -16,7 +16,7 @@ mongoose.Promise = require('bluebird')
 mongoose.connect(config.URI)
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'Connection errror: '))
-db.once('open', () => { console.log('Connected to database.') })
+db.once('open', () => { console.log('Connected to database') })
 
 app.use(morgan('combined'))
 app.use(bodyParser.json())
